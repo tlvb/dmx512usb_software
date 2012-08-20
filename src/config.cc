@@ -18,9 +18,6 @@ namespace dmx512usb_software {
 			(char*)"/etc"
 		};
 
-		log << "1:" << (void*)dirs[0] << std::endl;
-		log << "2:" << (void*)dirs[1] << std::endl;
-		
 		bool success = false;
 		for (unsigned i=0; i<ndirs; ++i) {
 			if (dirs[i] != NULL && try_dir(std::string(dirs[i]))) {

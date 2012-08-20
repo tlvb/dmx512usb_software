@@ -1,4 +1,3 @@
-#include <iostream>
 #include <fcntl.h>
 #include <termios.h>
 #include <errno.h>
@@ -10,9 +9,9 @@
 
 namespace dmx512usb_software {
 
-	Serial::Serial(std::string device, int baudrate) {
+	Serial::Serial(const std::string &device, int baudrate) {
 		portopen = false;
-		sfd = open_port(device.c_str());
+		sfd = open_port(device);
 		if (ok)
 			config_port(sfd, baudrate);
 	}
@@ -36,19 +35,16 @@ namespace dmx512usb_software {
 
 
 
-	int Serial::writechars(char *data, int n) {
+	int Serial::writebytes(uint8_t *data, unsigned n) {
 		return write(sfd, data, n);
 	}
 
-	int Serial::readchars(char *data, int n) {
+	int Serial::readbytes(uint8_t *data, unsigned n) {
 		return read(sfd, data, n);
 	}
 
-
-
-
-	int Serial::open_port(const char *device) {
-		int sfd = open(device, O_RDWR | O_NOCTTY | O_NDELAY);
+	int Serial::open_port(const std::string &device) {
+		int sfd = open(device.c_str(), O_RDWR | O_NOCTTY | O_NDELAY);
 		if (sfd == -1) {
 			ok = false;
 			log << "unable to open port \"" << device << "\"" << std::endl;
@@ -97,24 +93,4 @@ namespace dmx512usb_software {
 
 	}
 
-
-
 }
-/*
-int main(void) {
-	int sfd = open_port("/dev/ttyUSB0");
-	config_port(sfd);
-	char c[16];
-	c[15] = 0;
-	for (;;) {
-		size_t count = read(sfd, c, 15);
-		if (count > 0) {
-			std::cout << "read " << count << "bytes: '";
-			for (size_t i=0; i<count; ++i) {
-				std::cout << "'" << c[i];
-			}
-			std::cout << "'" << std::endl;
-		}
-	}
-}
-*/

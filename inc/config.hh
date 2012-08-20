@@ -1,10 +1,12 @@
-#ifndef __DMX512SW_CONFIG_HH__
-#define __DMX512SW_CONFIG_HH__
+#ifndef __DMX512USB_SOFTWARE_CONFIG_HH__
+#define __DMX512USB_SOFTWARE_CONFIG_HH__
 
 #include <string>
+#include <sstream>
 #include <confuse.h>
 
-namespace dmx512usb_sw {
+
+namespace dmx512usb_software {
 
 	class Config {
 
@@ -19,7 +21,7 @@ namespace dmx512usb_sw {
 
 		private:
 			std::string device;
-			std::string error;
+			std::ostringstream log;
 			bool ok;
 
 
@@ -28,7 +30,7 @@ namespace dmx512usb_sw {
 		public:
 			Config(void);
 			bool is_ok(void);
-			std::string get_error(void);
+			std::string get_log(void);
 
 			std::string get_device(void);
 

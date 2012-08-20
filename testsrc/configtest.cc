@@ -2,19 +2,20 @@
 #include <iostream>
 
 using namespace std;
-using namespace dmx512usb_sw;
+using namespace dmx512usb_software;
 
 int main(void) {
 
 	Config c;
 
-	if (c.is_ok()) {
-		cout << "config ok, device =\"" << c.get_device() << "\"" << endl;
+	if (c.get_device().compare("/dev/ttyUSB0") != 0) {
+		cout << "c.get_device() does does not equal expected value" << endl;
+		cout << "expected: \"/dev/ttyUSB0\"" << endl;
+		cout << "actual:   \"" << c.get_device() << "\"" << endl;
+		return 1;
 	}
-	else {
-		cout << "config is not ok, error=\"" << c.get_error() << "\"" << endl;
-	}
-
+	
+	cout << "configtest success" << endl;
 	return 0;
 }
 

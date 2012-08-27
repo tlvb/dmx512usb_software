@@ -9,6 +9,7 @@ namespace dmx512usb_software {
 	}
 
 	void PeriodicWorker::start(void) {
+		run = true;
 		wt = std::thread(&PeriodicWorker::loop, this);
 	}
 

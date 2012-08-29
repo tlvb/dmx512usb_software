@@ -1,5 +1,11 @@
-CPPFLAGS = -std=c++11 -Wall -g -DDEBUG -Iinc/
+CPPFLAGS = -std=c++11 -Wall -g -DDEBUG -Iinc/ -Itestinc/
 CPP = g++
+
+bin/graphicaltest2: testsrc/graphicaltest2.cc dmx.o controls.o periodicworker.o serial.o config.o 
+	${CPP} ${CPPFLAGS} -o bin/graphicaltest2 testsrc/graphicaltest2.cc dmx.o controls.o periodicworker.o serial.o config.o -lconfuse -lrt -lSDL -lSDL_ttf -lfontconfig -Llib/ -ltgui
+
+bin/newdmx: testsrc/newdmx.cc dmx.o periodicworker.o serial.o config.o
+	${CPP} ${CPPFLAGS} -o bin/newdmx testsrc/newdmx.cc dmx.o periodicworker.o serial.o config.o -lrt -lconfuse
 
 bin/graphicaltest: testsrc/graphicaltest.cc dmxio.o periodicworker.o serial.o config.o pattern.o
 	${CPP} ${CPPFLAGS} -o bin/graphicaltest testsrc/graphicaltest.cc dmxio.o periodicworker.o serial.o config.o pattern.o -lconfuse -lrt -lSDL -lSDL_ttf -lfontconfig -Llib/ -ltgui
@@ -27,6 +33,13 @@ config.o: src/config.cc inc/config.hh
 
 pattern.o: src/pattern.cc inc/pattern.hh
 	${CPP} ${CPPFLAGS} -c src/pattern.cc
+
+dmx.o: src/dmx.cc inc/dmx.hh
+	${CPP} ${CPPFLAGS} -c src/dmx.cc
+
+controls.o: src/controls.cc inc/controls.hh
+	${CPP} ${CPPFLAGS} -c src/controls.cc
+
 	
 .PHONY: configtest_successful_run
 configtest_successful_run: bin/configtest
